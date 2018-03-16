@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         Periscope Volume Adjuster
-// @namespace    http://github.com/FLeXyo
-// @version      0.3
-// @description  Allows you to adjust the volume of Periscope streams
-// @author       FLeX
-// @include        *://www.periscope.tv/*
-// @include        *://www.pscp.tv/*
-// @grant        none
-// @run-at        document-idle
+// @name		Periscope Volume Adjuster
+// @namespace	http://github.com/FLeXyo
+// @version		0.3
+// @description	Allows you to adjust the volume of Periscope streams
+// @author		FLeX
+// @include		*://www.periscope.tv/*
+// @include		*://www.pscp.tv/*
+// @grant		none
+// @run-at		document-idle
 // ==/UserScript==
 (function () {
 	'use strict';
@@ -21,7 +21,7 @@
 	slider.max = 1;
 	slider.value = 1;
 	slider.class = "slider";
-	slider.step = 0.1;
+	slider.step = 0.01;
 	slider.oninput = function () {
 		for (var i = 0; i < document.getElementsByTagName("video").length; i++) { document.getElementsByTagName("video")[i].volume = slider.value; }
 	}
