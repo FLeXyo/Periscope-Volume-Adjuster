@@ -6,8 +6,8 @@
 // @author		FLeX
 // @include		*://www.periscope.tv/*
 // @include		*://www.pscp.tv/*
-// @grant		none
 // @run-at		document-idle
+// @grant		none
 // ==/UserScript==
 (function () {
 	'use strict';
@@ -19,11 +19,12 @@
 	slider.type = "range";
 	slider.min = 0;
 	slider.max = 1;
-	slider.value = 1;
+
 	slider.class = "slider";
 	slider.step = 0.01;
+
 	slider.oninput = function () {
-		for (var i = 0; i < document.getElementsByTagName("video").length; i++) { document.getElementsByTagName("video")[i].volume = slider.value; }
+		setVideoVolume(slider.value);
 	}
 
 	var checkPageLoadInterval = setInterval(function () {
@@ -31,9 +32,22 @@
 		{
 			volumeSliderContainer.appendChild(slider);			
 			overlayBarLeft = document.getElementsByClassName("VideoOverlayRedesign-BottomBar-Left")[0];
-			overlayBarLeft.appendChild(volumeSliderContainer);
-			document.getElementsByClassName("HeartsContainer")[0].outerHTML = ""; //Remove hearts			
+			if (overlayBarLeft !== undefined)
+			{
+				overlayBarLeft.appendChild(volumeSliderContainer);
+				var volume = localStorage.getItem("flexyo_pva_volume");
+				if (volume === null) slider.value = 1
+				else slider.value = volume;
+				setVideoVolume(slider.value);
+				document.getElementsByClassName("HeartsContainer")[0].outerHTML = ""; //Remove hearts
+				document.getElementsByClassName("VideoOverlayRedesign-BackgroundGradient")[0].remove(); //Somebody thought it was a good idea to have an overlay displayed at all times over the video.
+			}
 		}
 	}, 1000);
+
+	function setVideoVolume(volume) {
+		for (var i = 0; i < document.getElementsByTagName("video").length; i++) { document.getElementsByTagName("video")[i].volume = volume; }
+		localStorage.setItem("flexyo_pva_volume", slider.value);	
+	}
 
 })();
